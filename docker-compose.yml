@@ -1,0 +1,18 @@
+version: '3'
+
+services:
+  realTimeMessagingDb:
+    image: postgres
+    container_name: realTimeMessagingDb    
+    restart: always
+    environment:
+      - POSTGRES_USER=santrami
+      - POSTGRES_PASSWORD=fullstack
+      - POSTGRES_DB=realTimeMessagingDb
+    ports:
+      - 5432:5432
+    volumes:
+      - dbdata:/var/lib/postgresql/data
+
+volumes:
+  dbdata:  
