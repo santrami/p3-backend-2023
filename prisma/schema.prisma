@@ -40,8 +40,8 @@ model Follow {
   id        Int      @id @default(autoincrement())
   createdAt DateTime @default(now())
 
-  followerId  Int
-  followingId Int
+  followerId  Int @unique
+  followingId Int @unique
 
   follower  User @relation(fields: [followerId], references: [id], name: "followers")
   following User @relation(fields: [followingId], references: [id], name: "followings")
