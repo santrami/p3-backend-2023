@@ -16,7 +16,7 @@ model User {
   surname    String
   createdAt  DateTime @default(now())
   Post       Post[]
-  followers  Follow[] @relation("followers")
+  followers  Follow[] @relation("followers") 
   followings Follow[] @relation("followings")
 }
 
@@ -37,12 +37,10 @@ model Like {
 }
 
 model Follow {
-  id        Int      @id @default(autoincrement())
-  createdAt DateTime @default(now())
+  followerId  Int 
+  followingId Int
+  follower  User @relation("followers", fields: [followerId], references: [id])
+  following User @relation("followings", fields: [followingId], references: [id])
 
-  followerId  Int @unique
-  followingId Int @unique
-
-  follower  User @relation(fields: [followerId], references: [id], name: "followers")
-  following User @relation(fields: [followingId], references: [id], name: "followings")
+  @@id([followerId, followingId])
 }
