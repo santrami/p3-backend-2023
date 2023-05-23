@@ -1,11 +1,9 @@
-import express from "express";
+import express, { ErrorRequestHandler } from "express";
 import cors from "cors";
 import morgan from "morgan";
-import { Request, Response } from "express";
 import dotenv from "dotenv";
-
-import { PrismaClient } from "@prisma/client";
-const prisma = new PrismaClient();
+import users from "./users.js";
+import { defaultHandlerError } from "./utils.js";
 
 dotenv.config();
 const app = express();
@@ -15,14 +13,15 @@ app.use(cors());
 app.use(express.json());
 app.use(morgan("dev"));
 
-app.get("/users", async (req: Request, res: Response) => {
-  try {
-    const result = await prisma.user.findMany();
-    res.status(200).json(result);
-  } catch (e) {
-    res.status(500).send({ type: e.constructor.name, message: e.toString() });
-  }
-});
+//routes
+app.use("/users", users);
+
+app.use(((err, req, res, next) => {
+  console.error("Soy un intermediario ", err);
+  next(err);
+}) as ErrorRequestHandler); 
+
+app.use(defaultHandlerError);
 
 const port = process.env.SERVER_PORT;
 
