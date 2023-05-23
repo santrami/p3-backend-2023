@@ -7,18 +7,14 @@ const router = Router();
 // endpoints for user routes
 
 //get all users
-router.get(
-  "/",
-  errorChecked(async (req, res, next) => {
+router.get("/", errorChecked(async (req, res) => {
     const result = await prisma.user.findMany();
     res.status(200).json(result);
   })
 );
 
 //get one user
-router.get(
-  "/:id",
-  errorChecked(async (req, res, next) => {
+router.get("/:id", errorChecked(async (req, res) => {
     const { id } = req.params;
     const getUser = await prisma.user.findUniqueOrThrow({
       where: { id: Number(id) },
@@ -28,9 +24,7 @@ router.get(
 );
 
 //create a new user
-router.post(
-  "/",
-  errorChecked(async (req, res, next) => {
+router.post("/", errorChecked(async (req, res) => {
     //const { name, surname, username, email, password } = await req.body;
     const newUser = await prisma.user.create({
       //or I can just send req.body, not name, surname, email, password.
@@ -42,9 +36,7 @@ router.post(
 );
 
 //update a user
-router.put(
-  "/:id",
-  errorChecked(async (req, res, next) => {
+router.put("/:id", errorChecked(async (req, res) => {
     const { id } = req.params;
     const updateUser = await prisma.user.update({
       where: {
@@ -57,9 +49,7 @@ router.put(
 );
 
 //delete user
-router.delete(
-  "/:id",
-  errorChecked(async (req, res, next) => {
+router.delete("/:id", errorChecked(async (req, res) => {
     const { id } = req.params;
     const deleteUser = await prisma.user.delete({
       where: {
