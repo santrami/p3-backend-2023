@@ -16,15 +16,15 @@ app.use(morgan("dev"));
 //routes
 app.use("/users", users);
 
-app.use(((err, req, res, next) => {
+/* app.use(((err, req, res, next) => {
   console.error("Soy un intermediario ", err);
   next(err);
-}) as ErrorRequestHandler); 
-
+}) as ErrorRequestHandler); */ 
+ 
 app.use(defaultHandlerError);
 
 const port = process.env.SERVER_PORT;
 
 app.listen(port, () => {
-  console.log(`listening on port : ${port}`);
+  console.log(`listening on port : ${port}`); 
 });

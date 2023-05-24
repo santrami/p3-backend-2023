@@ -4,7 +4,7 @@ import { errorChecked } from "./utils.js";
 
 const router = Router();
 
-// endpoints for user routes
+// user routes - endpoints
 
 //get all users
 router.get("/", errorChecked(async (req, res) => {
@@ -31,7 +31,7 @@ router.post("/", errorChecked(async (req, res) => {
       data: req.body,
       /* name,surname,username,email,password, */
     });
-    res.status(200).send(newUser);
+    res.status(200).send(newUser); 
   })
 );
 

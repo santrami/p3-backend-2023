@@ -8,11 +8,11 @@ export const defaultHandlerError: ErrorRequestHandler = ( err, req, res, next) =
 };
 
 export const errorChecked = (handler:RequestHandler): RequestHandler => {
-  return (req,res,next)=>{
+  return async (req,res,next)=>{
     try {
-      handler(req,res,next);
-    } catch (error) {
-      next (error);
+      await handler(req,res,next);
+    } catch (err) {
+      next (err);
     }
-  }
+  } 
 }
