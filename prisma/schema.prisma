@@ -15,7 +15,7 @@ model User {
   name       String
   surname    String
   createdAt  DateTime @default(now())
-  Post       Post[]
+  Post       Post[] 
   followers  Follow[] @relation("followers") 
   followings Follow[] @relation("followings")
 }

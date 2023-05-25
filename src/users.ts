@@ -1,6 +1,7 @@
-import { Router } from "express";
+import { Router, Request } from "express";
 import prisma from "./prisma-client.js";
 import { errorChecked } from "./utils.js";
+import postsRouter from './posts.js'
 
 const router = Router();
 
@@ -13,11 +14,21 @@ router.get("/", errorChecked(async (req, res) => {
   })
 );
 
+export interface RequestWithUserId extends Request {
+  userId: number;
+}
+
+router.use('/:id', async (req: RequestWithUserId, res, next)=>{
+  const {id} = req.params;
+  req.userId = Number (id);
+  next();
+})
+
 //get one user
-router.get("/:id", errorChecked(async (req, res) => {
-    const { id } = req.params;
+router.get("/:id", errorChecked(async (req: RequestWithUserId, res) => {
+    //const { id } = req.params;// no longer needed because of interface RequestWithUserId 
     const getUser = await prisma.user.findUniqueOrThrow({
-      where: { id: Number(id) },
+      where: { id: req.userId },
     });
     res.json(getUser);
   })
@@ -36,11 +47,11 @@ router.post("/", errorChecked(async (req, res) => {
 );
 
 //update a user
-router.put("/:id", errorChecked(async (req, res) => {
-    const { id } = req.params;
+router.put("/:id", errorChecked(async (req: RequestWithUserId, res) => {
+    //const { id } = req.params; // no longer needed because of interface RequestWithUserId 
     const updateUser = await prisma.user.update({
       where: {
-        id: Number(id),
+        id: req.userId,
       },
       data: req.body,
     });
@@ -49,15 +60,17 @@ router.put("/:id", errorChecked(async (req, res) => {
 );
 
 //delete user
-router.delete("/:id", errorChecked(async (req, res) => {
-    const { id } = req.params;
+router.delete("/:id", errorChecked(async (req: RequestWithUserId, res) => {
+    //const { id } = req.params; // no longer needed because of interface RequestWithUserId 
     const deleteUser = await prisma.user.delete({
       where: {
-        id: Number(id),
+        id: req.userId,
       },
     });
     res.json(deleteUser);
   })
 );
+
+router.use("/:id/posts", postsRouter)
 
 export default router;

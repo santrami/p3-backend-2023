@@ -14,5 +14,5 @@ export const errorChecked = (handler:RequestHandler): RequestHandler => {
     } catch (err) {
       next (err);
     }
-  } 
+  }
 }

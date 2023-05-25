@@ -2,7 +2,7 @@ import express, { ErrorRequestHandler } from "express";
 import cors from "cors";
 import morgan from "morgan";
 import dotenv from "dotenv";
-import users from "./users.js";
+import usersRouter from "./users.js";
 import { defaultHandlerError } from "./utils.js";
 
 dotenv.config();
@@ -14,12 +14,7 @@ app.use(express.json());
 app.use(morgan("dev"));
 
 //routes
-app.use("/users", users);
-
-/* app.use(((err, req, res, next) => {
-  console.error("Soy un intermediario ", err);
-  next(err);
-}) as ErrorRequestHandler); */ 
+app.use("/users", usersRouter);
  
 app.use(defaultHandlerError);
 
