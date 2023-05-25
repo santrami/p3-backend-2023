@@ -1,41 +1,42 @@
 import { Router } from "express";
 import { errorChecked } from "./utils.js";
 import prisma from "./prisma-client.js";
-import { RequestWithUserId } from "./users.js";
 
-const router = Router();
+
+const router = Router({mergeParams:true});
 
 router.get(
   "/",
-  errorChecked(async (req: RequestWithUserId, res,next) => {
+  errorChecked(async (req, res) => {
     const posts = await prisma.post.findMany({
       where: {
-        authorId: req.userId,
+        authorId: Number(req.params.id),
       },
     });
-    //if(posts.length !== 0){
+    if(posts.length !== 0){
         res.status(200).json(posts);
-    //}
-    //next()
+    }else{
+        throw new Error("No messages");
+    }
   })
 );
 
 router.post(
   "/",
-  errorChecked(async (req: RequestWithUserId, res) => {
+  errorChecked(async (req, res) => {
     const newPost = await prisma.post.create({
       data: {
         ...req.body,
-        authorId: req.userId,
+        authorId: Number(req.params.id),
       },
     });
     res.status(200).json(newPost);
   })
 );
 
-/* router.put("/", errorChecked(async (req, res) => {
+router.put("/", errorChecked(async (req, res) => {
 
 })
-); */
+);
 
 export default router;
