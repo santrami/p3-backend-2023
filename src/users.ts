@@ -63,4 +63,6 @@ router.delete("/:id", errorChecked(async (req, res) => {
 
 router.use("/:id/posts", postsRouter)
 
+
+
 export default router;

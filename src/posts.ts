@@ -2,8 +2,7 @@ import { Router } from "express";
 import { errorChecked } from "./utils.js";
 import prisma from "./prisma-client.js";
 
-
-const router = Router({mergeParams:true});
+const router = Router({ mergeParams: true });
 
 router.get(
   "/",
@@ -13,10 +12,10 @@ router.get(
         authorId: Number(req.params.id),
       },
     });
-    if(posts.length !== 0){
-        res.status(200).json(posts);
-    }else{
-        throw new Error("No messages");
+    if (posts.length !== 0) {
+      res.status(200).json(posts);
+    } else {
+      throw new Error("No messages");
     }
   })
 );
@@ -34,9 +33,28 @@ router.post(
   })
 );
 
-router.put("/", errorChecked(async (req, res) => {
-
-})
+router.put(
+  "/:postId",
+  errorChecked(async (req, res) => {
+    const updatedPost = await prisma.post.update({
+      where: {
+        id: Number(req.params.postId),
+      },
+      data: {
+        ...req.body,
+        authorId: Number(req.params.id),
+      },
+    });
+    res.status(200).json(updatedPost);
+  })
 );
+
+router.delete("/:postId", (req, res) => {
+  const deletedPost = prisma.post.delete({
+    where: { 
+      id: Number(req.params.postId) 
+    },
+  });
+});
 
 export default router;

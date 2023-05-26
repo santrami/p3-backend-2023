@@ -15,7 +15,6 @@ app.use(morgan("dev"));
 
 //routes
 app.use("/users", usersRouter);
- 
 app.use(defaultHandlerError);
 
 const port = process.env.SERVER_PORT;
