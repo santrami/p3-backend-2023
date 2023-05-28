@@ -61,7 +61,9 @@ router.delete("/:id", errorChecked(async (req, res) => {
   })
 );
 
-router.use("/:id/posts", postsRouter)
+router.use("/:userId/posts", postsRouter)
+
+
 
 
 

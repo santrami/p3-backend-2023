@@ -31,9 +31,10 @@ model Post {
 }
 
 model Like {
-  id     Int  @id @default(autoincrement())
   postId Int
   post   Post @relation(fields: [postId], references: [id])
+  
+  @@id([postId]) 
 }
 
 model Follow {

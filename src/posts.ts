@@ -1,6 +1,7 @@
 import { Router } from "express";
 import { errorChecked } from "./utils.js";
 import prisma from "./prisma-client.js";
+import likeRouter from './like.js'
 
 const router = Router({ mergeParams: true });
 
@@ -42,7 +43,7 @@ router.put(
       },
       data: {
         ...req.body,
-        authorId: Number(req.params.id),
+        authorId: Number(req.params.userId),
       },
     });
     res.status(200).json(updatedPost);
@@ -56,5 +57,7 @@ router.delete("/:postId", (req, res) => {
     },
   });
 });
+
+router.use("/:postId/like", likeRouter)
 
 export default router;
