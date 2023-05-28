@@ -2,6 +2,7 @@ import { Router, Request } from "express";
 import prisma from "./prisma-client.js";
 import { errorChecked } from "./utils.js";
 import postsRouter from './posts.js'
+import followRouter from './follow.js';
 
 const router = Router();
 
@@ -62,9 +63,6 @@ router.delete("/:id", errorChecked(async (req, res) => {
 );
 
 router.use("/:userId/posts", postsRouter)
-
-
-
-
+router.use("/:userId/follow", followRouter)
 
 export default router;

@@ -27,7 +27,7 @@ router.post(
     const newPost = await prisma.post.create({
       data: {
         ...req.body,
-        authorId: Number(req.params.id),
+        authorId: Number(req.params.userId),
       },
     });
     res.status(200).json(newPost);
