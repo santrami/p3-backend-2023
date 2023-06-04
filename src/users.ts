@@ -84,10 +84,10 @@ router.post(
         );
         res.status(200).json({
           message: "autorizado",
-          token:token
-        })
-      }else{
-        return res.status(401).json({ error: "Invalid credentials"})
+          token: token,
+        });
+      } else {
+        return res.status(401).json({ error: "Invalid credentials" });
       }
     });
   })
@@ -101,7 +101,7 @@ router.post(
 router.put(
   "/:id",
   errorChecked(async (req, res) => {
-    const { id } = req.params; // no longer needed because of interface RequestWithUserId
+    const { id } = req.params;
     const updateUser = await prisma.user.update({
       where: {
         id: Number(id),
@@ -114,9 +114,10 @@ router.put(
 
 //delete user
 router.delete(
-  "/:id", authenticateToken,
+  "/:id",
+  authenticateToken,
   errorChecked(async (req, res) => {
-    const { id } = req.params; // no longer needed because of interface RequestWithUserId
+    const { id } = req.params;
     const deleteUser = await prisma.user.delete({
       where: {
         id: Number(id),
